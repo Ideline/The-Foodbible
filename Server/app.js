@@ -58,13 +58,23 @@ app.get('/api/recipe/:id', function (request, response) {
     response.json(r);
 });
 
+app.get('/api/recipes/category/find/:category', function (request, response) {
+    let recipeHits = recipes.filter(recipe => recipe.subCategory === request.params.category);
+
+    response.json(recipeHits);
+});
+
+app.get('/api/recipes/find/:searchWord', function (request, response) {
+    let searchWord = request.params.searchWord.toLowerCase();
+    console.log(searchWord);
+    let recipeHits = recipes.filter(recipe => {
+        return (recipe.title.toLowerCase().includes(searchWord) || recipe.description.toLowerCase().includes(searchWord));
+    });
+    response.json(recipeHits);
+});
+
 app.get('/api/food/find/:id', function (request, response) {
     let searchHits = foodList
-        // .filter(food =>
-        //     food.Namn
-        //         .toLowerCase()
-        //         .startsWith(request.params.id.toLowerCase())
-        // )
         .filter(food =>
             food.Namn
                 .toLowerCase()
